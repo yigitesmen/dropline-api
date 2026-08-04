@@ -1,0 +1,25 @@
+{
+  "name": "dropline-api",
+  "version": "1.0.0",
+  "description": "Backend API for Dropline, a real-time messaging app.",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "keywords": ["dropline", "express", "typescript", "nodejs", "api", "rest", "messaging"],
+  "author": "Yigit Esmen",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.2",
+    "tsx": "^4.23.5",
+    "typescript": "^7.0.2"
+  }
+}
