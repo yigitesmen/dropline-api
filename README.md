@@ -14,6 +14,8 @@
   <img src="https://img.shields.io/badge/node.js-Runtime-8F00FF?style=for-the-badge" alt="Node.js" />
   <img src="https://img.shields.io/badge/express-Framework-8F00FF?style=for-the-badge" alt="Express" />
   <img src="https://img.shields.io/badge/typescript-Language-8F00FF?style=for-the-badge" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/mysql-Database-8F00FF?style=for-the-badge" alt="MySQL" />
+  <img src="https://img.shields.io/badge/prisma-ORM-8F00FF?style=for-the-badge" alt="Prisma" />
 </p>
 
 <p align="center">
@@ -28,17 +30,18 @@ Dropline API is the backend for [Dropline Mobile](https://github.com/yigitesmen/
 
 ## Status
 
-This project is just getting started. Implemented so far:
+Implemented so far:
 
-- Express app scaffold with a `/health` endpoint
-- TypeScript build (`tsc`) and dev workflow (`tsx` with hot reload)
-- Environment config via `.env`
+- Express app with security middleware (helmet, cors) and request logging (morgan)
+- User model in MySQL via Prisma, matching Dropline Mobile's profile fields (first/last name, username, status, photo)
+- Signup, login, and password-change endpoints with JWT authentication
+- Profile photo upload (Multer), with the old photo removed on replacement
+- Role-based access control, with admin-only routes for managing users
+- Request validation with Zod on every mutating route
+- Centralized error handling, including Prisma, JWT, and upload error mapping
 
 ### Roadmap
 
-- [ ] MySQL + Prisma ORM
-- [ ] Authentication (JWT, bcrypt password hashing)
-- [ ] Request validation (Zod)
 - [ ] Chats, messages, and contacts REST endpoints
 - [ ] Real-time updates over Socket.IO
 
@@ -51,12 +54,12 @@ This project is just getting started. Implemented so far:
 **Backend**
 - Node.js + Express
 - TypeScript
-- MySQL (planned)
-- Prisma (ORM, planned)
+- MySQL + Prisma (ORM)
+- JWT (authentication)
+- bcryptjs (password hashing)
+- Zod (schema validation)
+- Multer (file uploads)
 - Socket.IO (real-time messaging, planned)
-- JWT (authentication, planned)
-- bcrypt (password hashing, planned)
-- Zod (schema validation, planned)
 
 </td>
 <td width="50%" valign="top">
@@ -77,7 +80,7 @@ This project is just getting started. Implemented so far:
 
 ## Getting Started
 
-**Prerequisites:** Node.js 20+
+**Prerequisites:** Node.js 20+, a running MySQL server
 
 ```bash
 # Clone repository
@@ -89,6 +92,10 @@ npm install
 
 # Configure environment
 cp .env.example .env
+# then edit .env: set DATABASE_URL to your MySQL connection string, and JWT_SECRET
+
+# Apply the database schema
+npm run prisma:migrate
 
 # Run the dev server
 npm run dev
@@ -100,6 +107,15 @@ The server starts on the port set in `.env` (defaults to `3000`). Check it's up:
 curl http://localhost:3000/health
 ```
 
+### Production
+
+```bash
+npm ci
+npm run prisma:deploy
+npm run build
+npm start
+```
+
 ## Scripts
 
 | Command | Description |
@@ -107,13 +123,28 @@ curl http://localhost:3000/health
 | `npm run dev` | Run the dev server with hot reload (tsx) |
 | `npm run build` | Compile TypeScript to `dist/` |
 | `npm start` | Run the compiled server from `dist/` |
+| `npm run prisma:migrate` | Create and apply a new migration (development) |
+| `npm run prisma:deploy` | Apply pending migrations (production) |
+| `npm run prisma:studio` | Open Prisma Studio to browse the database |
 
 ## Project Structure
 
 ```
+prisma/
+  schema.prisma        # Database schema
 src/
-  app.ts     # Express app + routes
-  server.ts  # Entry point, starts the HTTP server
+  controllers/          # Route handlers
+  middleware/            # Express middleware (validation, file uploads, etc.)
+  routes/                # Route definitions
+  services/              # Business logic (password hashing, etc.)
+  validation/             # Zod request schemas
+  utils/                  # AppError, catchAsync, StatusCode
+  types/                  # Ambient type declarations (e.g. req.user)
+  lib/prisma.ts           # Prisma client instance
+  app.ts                  # Express app + middleware
+  server.ts               # Entry point, starts the HTTP server
+uploads/                # User-uploaded files (created at runtime, gitignored)
+  profile-images/       # Profile photos
 ```
 
 ## Mobile Client

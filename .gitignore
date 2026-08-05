@@ -9,3 +9,9 @@ dist/
 
 # MacOS related
 .DS_Store
+
+# Generated prisma files
+/src/generated/prisma
+
+# User-uploaded files
+/uploads
