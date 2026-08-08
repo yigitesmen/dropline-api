@@ -10,7 +10,9 @@
     "postinstall": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "dev-data:import": "tsx dev-data/dev.data.ts --import",
+    "dev-data:delete": "tsx dev-data/dev.data.ts --delete"
   },
   "keywords": [
     "dropline",
@@ -36,6 +38,7 @@
     "mariadb": "^3.5.3",
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
+    "nanoid": "^3.3.18",
     "prisma": "^7.9.1",
     "zod": "^4.4.3"
   },

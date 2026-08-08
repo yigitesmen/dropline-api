@@ -2,14 +2,10 @@ import { hash, compare } from 'bcryptjs';
 
 export const PASSWORD_SALT_ROUNDS = 12;
 
-export const publicUserSelect = {
-    id: true,
-    firstName: true,
-    lastName: true,
-    username: true,
-    status: true,
-    profileImageUrl: true,
+export const publicUserOmit = {
     email: true,
+    password: true,
+    passwordChangedAt: true,
     role: true,
     createdAt: true,
     updatedAt: true,

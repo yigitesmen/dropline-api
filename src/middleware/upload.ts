@@ -1,9 +1,9 @@
-import { randomUUID } from 'crypto';
 import { existsSync, mkdirSync } from 'fs';
 import { unlink } from 'fs/promises';
 import path from 'path';
 import { Request } from 'express';
 import multer from 'multer';
+import { nanoid } from 'nanoid';
 
 import AppError from '../utils/app.error';
 import StatusCode from '../utils/status.code';
@@ -29,8 +29,11 @@ const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
 const storage = multer.diskStorage({
     destination: (_req, _file, cb) => cb(null, PROFILE_IMAGES_DIR),
-    filename: (_req, file, cb) => {
-        cb(null, `${randomUUID()}${ALLOWED_MIME_TYPES[file.mimetype]}`);
+    filename: (req, file, cb) => {
+        cb(
+            null,
+            `${req.user.username}-${nanoid(8)}${ALLOWED_MIME_TYPES[file.mimetype]}`,
+        );
     },
 });
 
@@ -52,15 +55,32 @@ export const uploadPhoto = multer({
     limits: { fileSize: MAX_FILE_SIZE_BYTES },
 }).single('photo');
 
-export const buildPhotoUrl = (req: Request, filename: string): string =>
-    `${req.protocol}://${req.get('host')}/uploads/profile-images/${filename}`;
+export const resolveProfileImageUrl = (
+    req: Request,
+    filename: string | null | undefined,
+): string | null => {
+    if (!filename) return null;
 
-export const deletePhotoByUrl = async (
-    profileImageUrl: string | null | undefined,
+    return `${req.protocol}://${req.get('host')}/uploads/profile-images/${filename}`;
+};
+
+export const withResolvedProfileImage = <
+    T extends { profileImageFilename: string | null },
+>(
+    req: Request,
+    user: T,
+): Omit<T, 'profileImageFilename'> & { profileImageUrl: string | null } => {
+    const { profileImageFilename, ...rest } = user;
+
+    return {
+        ...rest,
+        profileImageUrl: resolveProfileImageUrl(req, profileImageFilename),
+    };
+};
+
+export const deleteImageByFilename = async (
+    filename: string | null | undefined,
 ): Promise<void> => {
-    if (!profileImageUrl) return;
-
-    const filename = profileImageUrl.split('/uploads/profile-images/').pop();
     if (!filename) return;
 
     try {

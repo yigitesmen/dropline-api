@@ -35,10 +35,13 @@ Implemented so far:
 - Express app with security middleware (helmet, cors) and request logging (morgan)
 - User model in MySQL via Prisma, matching Dropline Mobile's profile fields (first/last name, username, status, photo)
 - Signup, login, and password-change endpoints with JWT authentication
-- Profile photo upload (Multer), with the old photo removed on replacement
+- User listing with search, filtering, sorting, pagination, and field selection (`APIFeatures`)
+- Sensitive fields (password, email, role, timestamps) excluded from API responses by default
+- Profile photo upload (Multer), served through host-agnostic URLs resolved per-request, with the old photo removed on replacement
 - Role-based access control, with admin-only routes for managing users
 - Request validation with Zod on every mutating route
 - Centralized error handling, including Prisma, JWT, and upload error mapping
+- Seed script for reproducible dev data (22 sample users with profile photos)
 
 ### Roadmap
 
@@ -97,6 +100,9 @@ cp .env.example .env
 # Apply the database schema
 npm run prisma:migrate
 
+# (Optional) Seed the database with sample users and profile photos
+npm run dev-data:import
+
 # Run the dev server
 npm run dev
 ```
@@ -126,19 +132,25 @@ npm start
 | `npm run prisma:migrate` | Create and apply a new migration (development) |
 | `npm run prisma:deploy` | Apply pending migrations (production) |
 | `npm run prisma:studio` | Open Prisma Studio to browse the database |
+| `npm run dev-data:import` | Wipe and reseed the database and `uploads/profile-images/` with sample users |
+| `npm run dev-data:delete` | Delete all users and their profile images |
 
 ## Project Structure
 
 ```
 prisma/
   schema.prisma        # Database schema
+dev-data/
+  dev.data.ts           # Seed script (npm run dev-data:import / :delete)
+  users.json             # Sample user data
+  profile-images/        # Sample profile photos, copied into uploads/ on import
 src/
   controllers/          # Route handlers
   middleware/            # Express middleware (validation, file uploads, etc.)
   routes/                # Route definitions
   services/              # Business logic (password hashing, etc.)
   validation/             # Zod request schemas
-  utils/                  # AppError, catchAsync, StatusCode
+  utils/                  # AppError, catchAsync, StatusCode, APIFeatures
   types/                  # Ambient type declarations (e.g. req.user)
   lib/prisma.ts           # Prisma client instance
   app.ts                  # Express app + middleware
