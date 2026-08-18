@@ -20,10 +20,10 @@ export const getAllUsers = catchAsync(async (req, res) => {
         ['email', 'password', 'passwordChangedAt', 'role', 'registeredAt', 'profileUpdatedAt'],
     )
         .search(['firstName', 'lastName', 'username', 'status'])
-        .filter()
-        .exclude({ id: { not: req.user.id } })
+        .filter(['firstName', 'lastName', 'username', 'status'])
+        .where({ id: { not: req.user.id } })
         .limitFields()
-        .sort()
+        .sort('registeredAt')
         .paginate();
 
     const users = await features.exec();

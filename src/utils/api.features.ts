@@ -46,10 +46,13 @@ export class APIFeatures<T> {
         return this;
     }
 
-    filter() {
+    filter(allowedFields: string[]) {
         const queryObj = { ...this.queryString };
         const excludedFields = ['page', 'sort', 'limit', 'fields', 'search'];
         excludedFields.forEach(el => delete queryObj[el]);
+        Object.keys(queryObj)
+            .filter(field => !allowedFields.includes(field))
+            .forEach(field => delete queryObj[field]);
 
         const where: Record<string, unknown> = {};
 
@@ -76,7 +79,7 @@ export class APIFeatures<T> {
         return this;
     }
 
-    exclude(where: Record<string, unknown>) {
+    where(where: Record<string, unknown>) {
         this.args.where = { ...this.args.where, ...where };
         return this;
     }
@@ -103,7 +106,7 @@ export class APIFeatures<T> {
         return this;
     }
 
-    sort() {
+    sort(defaultField: string) {
         if (this.queryString.sort) {
             this.args.orderBy = this.queryString.sort
                 .split(',')
@@ -113,7 +116,7 @@ export class APIFeatures<T> {
                         : { [field]: 'asc' as SortOrder },
                 );
         } else {
-            this.args.orderBy = [{ createdAt: 'desc' }];
+            this.args.orderBy = [{ [defaultField]: 'desc' }];
         }
 
         return this;
