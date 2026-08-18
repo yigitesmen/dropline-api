@@ -4,16 +4,16 @@
         "firstName": "Yigit",
         "lastName": "Esmen",
         "username": "yigitesmen",
-        "profileImageFilename": "yigitesmen-j_P7J3GN.webp",
+        "profileImage": "yigitesmen-j_P7J3GN.webp",
         "status": "Shipping features 🚀",
-        "role": "ADMIN"
+        "role": "Admin"
     },
     {
         "id": "cmsk6dcqr000krs4tojdtrfjj",
         "firstName": "Anna",
         "lastName": "McNulty",
         "username": "annaemcnulty",
-        "profileImageFilename": "annaemcnulty-urgiB85F.webp",
+        "profileImage": "annaemcnulty-urgiB85F.webp",
         "status": "Self taught contortionist & youtuber 🩷"
     },
     {
@@ -21,7 +21,7 @@
         "firstName": "Lisa",
         "lastName": "Manoban",
         "username": "lalalalisa_m",
-        "profileImageFilename": "lalalalisa_m-3UtxHJwP.webp",
+        "profileImage": "lalalalisa_m-3UtxHJwP.webp",
         "status": "Music is such a good way of connecting people"
     },
     {
@@ -29,7 +29,7 @@
         "firstName": "Phoebe",
         "lastName": "Buffay",
         "username": "phoebebuffay",
-        "profileImageFilename": "phoebebuffay-IehfL3D9.webp",
+        "profileImage": "phoebebuffay-IehfL3D9.webp",
         "status": "Smelly Cat, Smelly Cat"
     },
     {
@@ -37,7 +37,7 @@
         "firstName": "Monica",
         "lastName": "Geller",
         "username": "monicageller",
-        "profileImageFilename": "monicageller-LfdU0Sgz.webp",
+        "profileImage": "monicageller-LfdU0Sgz.webp",
         "status": "I'm so good at lightning rounds"
     },
     {
@@ -45,7 +45,7 @@
         "firstName": "Chandler",
         "lastName": "Bing",
         "username": "chandlerbing",
-        "profileImageFilename": "chandlerbing-uX6OZYD3.webp",
+        "profileImage": "chandlerbing-uX6OZYD3.webp",
         "status": "Could I BE any more sarcastic?"
     },
     {
@@ -53,7 +53,7 @@
         "firstName": "Joey",
         "lastName": "Tribbiani",
         "username": "joeytribbiani",
-        "profileImageFilename": "joeytribbiani-5okRsPDD.webp",
+        "profileImage": "joeytribbiani-5okRsPDD.webp",
         "status": "How you doin'?"
     },
     {
@@ -61,7 +61,7 @@
         "firstName": "Rachel",
         "lastName": "Green",
         "username": "rachelgreen",
-        "profileImageFilename": "rachelgreen-XtJZP2v7.webp",
+        "profileImage": "rachelgreen-XtJZP2v7.webp",
         "status": "I got off the plane."
     },
     {
@@ -69,7 +69,7 @@
         "firstName": "Ross",
         "lastName": "Geller",
         "username": "rossgeller",
-        "profileImageFilename": "rossgeller-gNOhn-_1.webp",
+        "profileImage": "rossgeller-gNOhn-_1.webp",
         "status": "We were on a break!"
     },
     {
@@ -77,7 +77,7 @@
         "firstName": "Phil",
         "lastName": "Dunphy",
         "username": "phildunphy",
-        "profileImageFilename": "phildunphy-XBkpuF6B.webp",
+        "profileImage": "phildunphy-XBkpuF6B.webp",
         "status": "I'm the cool dad, that's my thing."
     },
     {
@@ -85,7 +85,7 @@
         "firstName": "Claire",
         "lastName": "Dunphy",
         "username": "clairedunphy",
-        "profileImageFilename": "clairedunphy-346OHjw6.webp",
+        "profileImage": "clairedunphy-346OHjw6.webp",
         "status": "I'm not a control freak, you're all just messy."
     },
     {
@@ -93,7 +93,7 @@
         "firstName": "Haley",
         "lastName": "Dunphy",
         "username": "haleydunphy",
-        "profileImageFilename": "haleydunphy-_b7TCF2k.webp",
+        "profileImage": "haleydunphy-_b7TCF2k.webp",
         "status": "I'm not dumb, I just don't care."
     },
     {
@@ -101,7 +101,7 @@
         "firstName": "Alex",
         "lastName": "Dunphy",
         "username": "alexdunphy",
-        "profileImageFilename": "alexdunphy-LB7xkT1F.webp",
+        "profileImage": "alexdunphy-LB7xkT1F.webp",
         "status": "Being smart doesn't make life easier."
     },
     {
@@ -109,7 +109,7 @@
         "firstName": "Luke",
         "lastName": "Dunphy",
         "username": "lukedunphy",
-        "profileImageFilename": "lukedunphy-JX_-3Wc_.webp",
+        "profileImage": "lukedunphy-JX_-3Wc_.webp",
         "status": "Wait, what were we talking about?"
     },
     {
@@ -117,7 +117,7 @@
         "firstName": "Jay",
         "lastName": "Pritchett",
         "username": "jaypritchett",
-        "profileImageFilename": "jaypritchett-eNyng3SG.webp",
+        "profileImage": "jaypritchett-eNyng3SG.webp",
         "status": "I'm not old, I'm vintage."
     },
     {
@@ -125,7 +125,7 @@
         "firstName": "Gloria",
         "lastName": "Pritchett",
         "username": "gloriapritchett",
-        "profileImageFilename": "gloriapritchett-VX_NYKzT.webp",
+        "profileImage": "gloriapritchett-VX_NYKzT.webp",
         "status": "In my country, that would be a slap."
     },
     {
@@ -133,7 +133,7 @@
         "firstName": "Manny",
         "lastName": "Delgado",
         "username": "mannydelgado",
-        "profileImageFilename": "mannydelgado-7j-G_6ni.webp",
+        "profileImage": "mannydelgado-7j-G_6ni.webp",
         "status": "I have the soul of a 45-year-old woman."
     },
     {
@@ -141,7 +141,7 @@
         "firstName": "Mitchell",
         "lastName": "Pritchett",
         "username": "mitchellpritchett",
-        "profileImageFilename": "mitchellpritchett-JxzDkw3K.webp",
+        "profileImage": "mitchellpritchett-JxzDkw3K.webp",
         "status": "Come on, Cam, we don't have time for a montage."
     },
     {
@@ -149,7 +149,7 @@
         "firstName": "Cameron",
         "lastName": "Tucker",
         "username": "camerontucker",
-        "profileImageFilename": "camerontucker-P6_dyox4.webp",
+        "profileImage": "camerontucker-P6_dyox4.webp",
         "status": "I'm not crying, you're crying."
     },
     {
@@ -157,7 +157,7 @@
         "firstName": "Ali Berk",
         "lastName": "Özderya",
         "username": "aliberkozderya",
-        "profileImageFilename": "aliberkozderya-Sd4YJ6FS.webp",
+        "profileImage": "aliberkozderya-Sd4YJ6FS.webp",
         "status": "Lost in a good book"
     },
     {
@@ -165,7 +165,7 @@
         "firstName": "Kaan",
         "lastName": "Kaptaner",
         "username": "kaankaptaner",
-        "profileImageFilename": "kaankaptaner-rZWtJsP7.webp",
+        "profileImage": "kaankaptaner-rZWtJsP7.webp",
         "status": "Living my best life"
     },
     {
@@ -173,7 +173,7 @@
         "firstName": "Mustafa",
         "lastName": "Bayırlı",
         "username": "m.ats.uf.a",
-        "profileImageFilename": "m.ats.uf.a-y5xXhxd0.webp",
+        "profileImage": "m.ats.uf.a-y5xXhxd0.webp",
         "status": "Leveling up every day"
     }
 ]

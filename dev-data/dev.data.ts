@@ -16,7 +16,7 @@ interface SeedUser {
     firstName: string;
     lastName: string;
     username: string;
-    profileImageFilename?: string;
+    profileImage?: string;
     status?: string;
     role?: UserRole;
 }

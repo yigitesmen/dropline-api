@@ -3,7 +3,6 @@ import { sign, verify, JwtPayload, SignOptions } from 'jsonwebtoken';
 
 import prisma from '../lib/prisma';
 import { UserRole } from '../generated/prisma/enums';
-import { withResolvedProfileImage } from '../middleware/upload';
 import AppError from '../utils/app.error';
 import catchAsync from '../utils/catch.async';
 import StatusCode from '../utils/status.code';
@@ -11,7 +10,6 @@ import {
     correctPassword,
     hashPassword,
     hasPasswordChangedAfterJWT,
-    publicUserOmit,
 } from '../services/user.service';
 import {
     LoginInput,
@@ -66,21 +64,18 @@ export const signup = catchAsync(async (req, res) => {
             password: await hashPassword(password),
             status,
         },
-        omit: publicUserOmit,
     });
 
-    sendAuthResponse(
-        newUser.id,
-        withResolvedProfileImage(req, newUser),
-        StatusCode.Created,
-        res,
-    );
+    sendAuthResponse(newUser.id, newUser, StatusCode.Created, res);
 });
 
 export const login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body as LoginInput;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+        where: { email },
+        omit: { password: false },
+    });
 
     if (!user || !(await correctPassword(password, user.password))) {
         return next(
@@ -91,22 +86,9 @@ export const login = catchAsync(async (req, res, next) => {
         );
     }
 
-    const {
-        password: _password,
-        passwordChangedAt: _passwordChangedAt,
-        email: _email,
-        role: _role,
-        createdAt: _createdAt,
-        updatedAt: _updatedAt,
-        ...publicUser
-    } = user;
+    const { password: _password, ...publicUser } = user;
 
-    sendAuthResponse(
-        user.id,
-        withResolvedProfileImage(req, publicUser),
-        StatusCode.Ok,
-        res,
-    );
+    sendAuthResponse(user.id, publicUser, StatusCode.Ok, res);
 });
 
 export const protect = catchAsync(async (req, _res, next) => {
@@ -137,6 +119,7 @@ export const protect = catchAsync(async (req, _res, next) => {
 
     const currentUser = await prisma.user.findUnique({
         where: { id: decoded.id },
+        omit: { role: false, passwordChangedAt: false },
     });
     if (!currentUser) {
         return next(
@@ -181,6 +164,7 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
 
     const user = await prisma.user.findUniqueOrThrow({
         where: { id: req.user.id },
+        omit: { password: false },
     });
 
     if (!(await correctPassword(currentPassword, user.password))) {
@@ -198,13 +182,7 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
             password: await hashPassword(password),
             passwordChangedAt: new Date(Date.now() - 1000),
         },
-        omit: publicUserOmit,
     });
 
-    sendAuthResponse(
-        updatedUser.id,
-        withResolvedProfileImage(req, updatedUser),
-        StatusCode.Ok,
-        res,
-    );
+    sendAuthResponse(updatedUser.id, updatedUser, StatusCode.Ok, res);
 });

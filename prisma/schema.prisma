@@ -9,23 +9,23 @@ datasource db {
 }
 
 enum UserRole {
-  USER
-  ADMIN
+  User
+  Admin
 }
 
 model User {
-  id                   String    @id @default(cuid())
-  firstName            String
-  lastName             String
-  username             String    @unique
-  status               String?
-  profileImageFilename String?
-  email                String    @unique
-  password             String
-  role                 UserRole  @default(USER)
+  id                   String    @id @default(cuid()) @db.VarChar(30)
+  firstName            String    @db.VarChar(20)
+  lastName             String    @db.VarChar(20)
+  username             String    @unique @db.VarChar(20)
+  status               String?   @db.VarChar(100)
+  profileImage         String?   @db.VarChar(50)
+  email                String    @unique @db.VarChar(254)
+  password             String    @db.VarChar(60)
+  role                 UserRole  @default(User)
+  registeredAt         DateTime  @default(now())
+  profileUpdatedAt     DateTime  @updatedAt
   passwordChangedAt    DateTime?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
 
   @@map("users")
 }

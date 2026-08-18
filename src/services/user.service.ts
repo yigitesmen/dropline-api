@@ -2,15 +2,6 @@ import { hash, compare } from 'bcryptjs';
 
 export const PASSWORD_SALT_ROUNDS = 12;
 
-export const publicUserOmit = {
-    email: true,
-    password: true,
-    passwordChangedAt: true,
-    role: true,
-    createdAt: true,
-    updatedAt: true,
-} as const;
-
 export const hashPassword = (password: string): Promise<string> =>
     hash(password, PASSWORD_SALT_ROUNDS);
 

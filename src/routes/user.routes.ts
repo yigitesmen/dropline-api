@@ -51,11 +51,11 @@ router
     .route('/:id')
     .get(getUser)
     .patch(
-        restrictTo(UserRole.ADMIN),
+        restrictTo(UserRole.Admin),
         uploadPhoto,
         validate(updateMeSchema),
         updateUser,
     )
-    .delete(restrictTo(UserRole.ADMIN), deleteUser);
+    .delete(restrictTo(UserRole.Admin), deleteUser);
 
 export default router;

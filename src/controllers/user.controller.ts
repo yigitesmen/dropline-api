@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 
 import prisma from '../lib/prisma';
-import { deleteImageByFilename, withResolvedProfileImage } from '../middleware/upload';
+import { deleteImageByFilename } from '../middleware/upload';
 import AppError from '../utils/app.error';
 import catchAsync from '../utils/catch.async';
 import StatusCode from '../utils/status.code';
-import { publicUserOmit } from '../services/user.service';
 import { UpdateMeInput } from '../validation/user.validation';
 import { APIFeatures } from '../utils/api.features';
 
@@ -18,7 +17,7 @@ export const getAllUsers = catchAsync(async (req, res) => {
     const features = new APIFeatures(
         args => prisma.user.findMany(args),
         req.query as Record<string, string>,
-        ['email', 'password', 'passwordChangedAt', 'role', 'createdAt', 'updatedAt'],
+        ['email', 'password', 'passwordChangedAt', 'role', 'registeredAt', 'profileUpdatedAt'],
     )
         .search(['firstName', 'lastName', 'username', 'status'])
         .filter()
@@ -29,19 +28,16 @@ export const getAllUsers = catchAsync(async (req, res) => {
 
     const users = await features.exec();
 
-    const resolvedUsers = users.map(user => withResolvedProfileImage(req, user));
-
     res.status(StatusCode.Ok).json({
         status: 'success',
-        results: resolvedUsers.length,
-        data: { users: resolvedUsers },
+        results: users.length,
+        data: { users },
     });
 });
 
 export const getUser = catchAsync(async (req, res, next) => {
     const user = await prisma.user.findUnique({
         where: { id: String(req.params.id) },
-        omit: publicUserOmit,
     });
 
     if (!user) {
@@ -52,7 +48,7 @@ export const getUser = catchAsync(async (req, res, next) => {
 
     res.status(StatusCode.Ok).json({
         status: 'success',
-        data: { user: withResolvedProfileImage(req, user) },
+        data: { user },
     });
 });
 
@@ -62,7 +58,7 @@ export const updateUser = catchAsync(async (req, res) => {
     const previousUser = uploadedFilename
         ? await prisma.user.findUnique({
             where: { id: String(req.params.id) },
-            select: { profileImageFilename: true },
+            select: { profileImage: true },
         })
         : null;
 
@@ -71,19 +67,18 @@ export const updateUser = catchAsync(async (req, res) => {
         data: {
             ...(req.body as UpdateMeInput),
             ...(uploadedFilename && {
-                profileImageFilename: uploadedFilename,
+                profileImage: uploadedFilename,
             }),
         },
-        omit: publicUserOmit,
     });
 
-    if (uploadedFilename && previousUser?.profileImageFilename) {
-        await deleteImageByFilename(previousUser.profileImageFilename);
+    if (uploadedFilename && previousUser?.profileImage) {
+        await deleteImageByFilename(previousUser.profileImage);
     }
 
     res.status(StatusCode.Ok).json({
         status: 'success',
-        data: { user: withResolvedProfileImage(req, updatedUser) },
+        data: { user: updatedUser },
     });
 });
 
