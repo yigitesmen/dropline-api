@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 
 import userRouter from './routes/user.routes';
+import chatRouter from './routes/chat.routes';
 import { UPLOADS_DIR } from './middleware/upload';
 import AppError from './utils/app.error';
 import StatusCode from './utils/status.code';
@@ -27,6 +28,7 @@ export function createApp(): Express {
     });
 
     app.use('/api/v1/users', userRouter);
+    app.use('/api/v1/chats', chatRouter);
 
     app.use((req, _res, next) => {
         next(

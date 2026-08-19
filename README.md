@@ -36,16 +36,17 @@ Implemented so far:
 - User model in MySQL via Prisma, matching Dropline Mobile's profile fields (first/last name, username, status, photo)
 - Signup, login, and password-change endpoints with JWT authentication
 - User listing with search, filtering, sorting, pagination, and field selection (`APIFeatures`)
-- Sensitive fields (password, email, role, timestamps) excluded from API responses by default
-- Profile photo upload (Multer), served through host-agnostic URLs resolved per-request, with the old photo removed on replacement
-- Role-based access control, with admin-only routes for managing users
+- Sensitive fields (password, email, role, timestamps) excluded from API responses by default via the Prisma Client
+- Profile photo upload (Multer), with the old photo removed on replacement
+- Private, group, and channel chats, with participant roles, unread counts, and per-chat image uploads
+- Messages, with pagination and read-tracking per chat
+- Role-based access control, with admin-only routes for managing users and creating channels
 - Request validation with Zod on every mutating route
 - Centralized error handling, including Prisma, JWT, and upload error mapping
 - Seed script for reproducible dev data (22 sample users with profile photos)
 
 ### Roadmap
 
-- [ ] Chats, messages, and contacts REST endpoints
 - [ ] Real-time updates over Socket.IO
 
 ## Tech Stack
@@ -157,6 +158,7 @@ src/
   server.ts               # Entry point, starts the HTTP server
 uploads/                # User-uploaded files (created at runtime, gitignored)
   profile-images/       # Profile photos
+  chat-images/           # Group/channel chat photos
 ```
 
 ## Mobile Client

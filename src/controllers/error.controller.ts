@@ -65,6 +65,12 @@ const toAppError = (error: Error): AppError => {
     if (error instanceof AppError) return error;
     if (error instanceof Prisma.PrismaClientKnownRequestError)
         return handlePrismaKnownError(error);
+    if (error instanceof Prisma.PrismaClientValidationError) {
+        return new AppError(
+            'Invalid query or request parameters.',
+            StatusCode.BadRequest,
+        );
+    }
     if (error instanceof MulterError) return handleMulterError(error);
     if (error instanceof TokenExpiredError) {
         return new AppError(

@@ -13,6 +13,17 @@ enum UserRole {
   Admin
 }
 
+enum ChatType {
+  Private
+  Group
+  Channel
+}
+
+enum ChatParticipantRole {
+  Member
+  Admin
+}
+
 model User {
   id                   String    @id @default(cuid()) @db.VarChar(30)
   firstName            String    @db.VarChar(20)
@@ -27,5 +38,51 @@ model User {
   profileUpdatedAt     DateTime  @updatedAt
   passwordChangedAt    DateTime?
 
+  chatParticipants     ChatParticipant[]
+  messages             Message[]
+
   @@map("users")
+}
+
+model Chat {
+  id            String    @id @default(cuid()) @db.VarChar(30)
+  type          ChatType
+  title         String?   @db.VarChar(50)
+  image         String?   @db.VarChar(50)
+  lastActivityAt DateTime @updatedAt
+  lastMessageId String?   @db.VarChar(30)
+
+  participants  ChatParticipant[]
+  messages      Message[]
+
+  @@map("chats")
+}
+
+model ChatParticipant {
+  chatId     String              @db.VarChar(30)
+  userId     String              @db.VarChar(30)
+  role       ChatParticipantRole @default(Member)
+  lastReadAt DateTime?
+  joinedAt   DateTime            @default(now())
+
+  chat       Chat                @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user       User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([chatId, userId])
+  @@index([userId])
+  @@map("chat_participants")
+}
+
+model Message {
+  id       String   @id @default(cuid()) @db.VarChar(30)
+  chatId   String   @db.VarChar(30)
+  authorId String   @db.VarChar(30)
+  text     String   @db.Text
+  sentAt   DateTime @default(now())
+
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([chatId, sentAt])
+  @@map("messages")
 }
